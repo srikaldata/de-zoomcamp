@@ -59,3 +59,17 @@ LIMIT 1;
 ```
 OUTPUT: <br>
 "2025-11-18"	"East Harlem North"	9281.920000000004
+
+# QUESTION 6 - Largest tip
+```
+SELECT zdo."Zone" AS dropoff_zone, MAX(t.tip_amount) AS zone_max_tip_amount
+FROM public.green_taxi_data AS t
+JOIN public.taxi_zones zpu ON t."PULocationID" = zpu."LocationID"
+JOIN public.taxi_zones zdo ON t."DOLocationID" = zdo."LocationID"
+WHERE zpu."Zone" = 'East Harlem North'
+GROUP BY 1
+ORDER BY zone_max_tip_amount DESC
+LIMIT 1;
+```
+OUTPUT: <br>
+"Yorkville West"	81.89
