@@ -25,7 +25,7 @@ pip 25.3 from /usr/local/lib/python3.13/site-packages/pip (python 3.13)
 # QUESTION 3 - Counting short trips
 
 ```
-SELECT COUNT(*)
+SELECT COUNT(*) AS total_trips_under_1_mile
 FROM public.green_taxi_data
 WHERE lpep_pickup_datetime >= '2025-11-01' 
 	AND lpep_pickup_datetime <= '2025-12-01'
@@ -34,3 +34,15 @@ WHERE lpep_pickup_datetime >= '2025-11-01'
 ```
 OUTPUT: <br>
 8007
+
+# QUESTION 4 - Longest trip for each day
+```
+SELECT DATE(lpep_pickup_datetime) AS max_trip_dist_day
+FROM public.green_taxi_data
+WHERE trip_distance <= 100
+ORDER BY trip_distance DESC
+LIMIT 1
+;
+```
+OUTPUT: <br>
+2025-11-14
