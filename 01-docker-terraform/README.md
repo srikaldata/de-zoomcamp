@@ -46,3 +46,16 @@ LIMIT 1
 ```
 OUTPUT: <br>
 2025-11-14
+
+# QUESTION 5 - Biggest pickup zone
+```
+SELECT DATE(t.lpep_pickup_datetime), zpu."Zone" AS pickup_zone, SUM(t.total_amount) AS zone_total_amount
+FROM public.green_taxi_data AS t
+JOIN public.taxi_zones zpu ON t."PULocationID" = zpu."LocationID"
+WHERE DATE(t.lpep_pickup_datetime) = '2025-11-18'
+GROUP BY 1, 2
+ORDER BY zone_total_amount DESC
+LIMIT 1;
+```
+OUTPUT: <br>
+"2025-11-18"	"East Harlem North"	9281.920000000004
