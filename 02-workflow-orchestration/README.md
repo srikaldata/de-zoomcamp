@@ -46,3 +46,17 @@
     * go to pgadmin --> ny_taxi_server --> Databases --> ny_taxi --> Schemas --> public --> yellow_tripdata
     * `SELECT COUNT(*) FROM yellow_tripdata`
     * ANSWER: 1925152
+
+# QUESTION 6
+*  How would you configure the timezone to New York in a Schedule trigger?
+    * we can use the timezone property in Schedule trigger 
+    * specifying America/New_York or UTC-05:00 (standard time) or UTC-04:00 (daylight time) 
+    * So to auto adapt across daylight savings and standard timezone the best way is to use America/New_York
+    * For example:
+```
+triggers:
+  - id: green_schedule_or_yellow_schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 9 * * *"
+    timezone: America/New_York
+```
