@@ -35,3 +35,14 @@
     * go to pgadmin --> ny_taxi_server --> Databases --> ny_taxi --> Schemas --> public --> Tables --> green_tripdata
     * `SELECT COUNT(*) FROM green_tripdata`
     * ANSWER: 1734051
+
+# QUESTION 5
+* How many rows are there for the Yellow Taxi data for the March 2021 CSV file?
+    * drop the existing yellow_tripdata table in postgreSQL from pgadmin
+    * Non-scheduled workflow
+    * Select taxi type = yellow
+    * Select year = 2021
+    * Select month = 03
+    * go to pgadmin --> ny_taxi_server --> Databases --> ny_taxi --> Schemas --> public --> yellow_tripdata
+    * `SELECT COUNT(*) FROM yellow_tripdata`
+    * ANSWER: 1925152
