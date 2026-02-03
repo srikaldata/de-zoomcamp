@@ -15,3 +15,13 @@
     * Select month = 12
     * go to Executions --> Outputs --> outputFiles 
     * ANSWER: green_tripdata_2020-04.csv
+
+# QUESTION 3
+* How many rows are there for the Yellow Taxi data for all CSV files in the year 2020?
+    * go to scheduled workflow --> Triggers --> yellow_schedule
+    * Start = 2020-01-01 00:00:00
+    * End = 2020-12-31 23:59:59
+    * Select taxi type = yellow
+    * go to pgadmin --> ny_taxi_server --> Databases --> ny_taxi --> Schemas --> public --> Tables --> yellow_tripdata
+    * `SELECT COUNT(*) FROM yellow_tripdata`
+    * ANSWER: 24648499
