@@ -60,3 +60,14 @@ ANSWER:
 * REASON:
     * BigQuery is a columnar database, and it only scans the specific columns requested in the query. 
     * Querying two columns (PULocationID, DOLocationID) requires reading more data than querying one column (PULocationID), leading to a higher estimated number of bytes processed.
+
+
+# QUESTION 4: Counting Zero Fare Trips
+```
+-- records having a fare_amount of 0
+SELECT COUNT(*) AS num_trips_fare_zero 
+FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_yellow_taxi_2024`
+WHERE fare_amount = 0;
+```
+ANSWER:
+* num_trips_fare_zero = 8333
