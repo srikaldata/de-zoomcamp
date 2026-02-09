@@ -1,0 +1,29 @@
+
+# --- Google Cloud Platform ---
+# NEVER commit your service account keys!
+*.json
+!credentials.json  # Optional: only if you have a dummy template
+.gcp/
+
+/local_gcs_cache/
+/data_downloads/
+
+*.tmp
+.gcs_config 
+
+# --- Python Environment ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.venv/
+env/
+
+# --- Logs and Local Data ---
+*.log
+local_data/
+downloads/
+.vscode/
+*.csv
+*.parquet
