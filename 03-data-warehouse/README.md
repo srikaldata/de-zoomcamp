@@ -117,3 +117,13 @@ ANSWER:
 * we have uploaded the dataset in reference to GCP storage bucket
 * the external table has been created referring the uri of the GCP storage bucket
 * Thus, the data stored in external table persists in the GCP storage bucket
+
+# QUESTION 8: Clustering Best Practices
+* It is best practice in Big Query to always cluster your data:
+* ANSWER:False
+* REASON: 
+    * USE CLUSTERING IF
+        * If your partitions are really small (less than 1GB) OR your column has a high level of granularity 
+        * If partitions are large number beyond limit of partition table (4000 partitions for GCP)
+        * If partitions causes many changes and lots of modifications quite frequently
+
