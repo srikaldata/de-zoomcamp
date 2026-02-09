@@ -112,3 +112,8 @@ ANSWER:
     * for materialized / regular table = 310.24 MB
     * for partitioned & clustered table = 26.84 MB
 * REASON: partition pruning, helps filter the data quickly and efficiently
+
+# QUESTION 7: External Table Storage
+* we have uploaded the dataset in reference to GCP storage bucket
+* the external table has been created referring the uri of the GCP storage bucket
+* Thus, the data stored in external table persists in the GCP storage bucket
