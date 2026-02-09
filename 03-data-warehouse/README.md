@@ -14,6 +14,8 @@ CREATE OR REPLACE TABLE `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_y
 AS
 SELECT * FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.external_yellow_taxi_2024`;
 ```
+
+
 # QUESTION 1: Counting records
 ```
 -- QUESTION 1: count of records for the 2024 Yellow Taxi Data
@@ -21,6 +23,7 @@ SELECT COUNT(*) AS total_records_yellow_2024_janjune
 FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_yellow_taxi_2024`;
 ```
 * ANSWER: 20332093
+
 
 # QUESTION 2: Data Read Estimation
 * estimated amount of data read when performing a query on external and regular tables
@@ -42,6 +45,7 @@ ANSWER:
 * for regular table:
     * Estimated bytes processed = 155.12 MB
     * Bytes processed = 155.12 MB
+
 
 # QUESTION 3: Understanding Columnar Storage
 ```
@@ -72,6 +76,7 @@ WHERE fare_amount = 0;
 ANSWER:
 * num_trips_fare_zero = 8333
 
+
 # QUESTION 5: Partitioning And Clustering
 ```
 -- new table with partition by date of dropoff and cluster by vendor id
@@ -88,3 +93,22 @@ ANSWER:
     * The vendor ID is the main category across which the data in each partition can be clustered. 
     * Also, since the sorting order is in the same order of partition by order an overarching categorical column such as Vendor ID is a good starting point to form clusters.
 
+
+# QUESTION 6: Partition Benefits (estimated bytes processed: regular v/s partitioned+clustered)
+```
+-- distinct VendorIDs between tpep_dropoff_datetime 2024-03-01 and 2024-03-15 (inclusive)
+-- using materialized (regular) table
+SELECT DISTINCT VendorID
+FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_yellow_taxi_2024`
+WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' and '2024-03-15';
+
+-- using partitioned and clustered table
+SELECT DISTINCT VendorID
+FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.paritioned_clustered_yellow_taxi_2024`
+WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' and '2024-03-15';
+```
+ANSWER:
+* Estimated bytes processed:
+    * for materialized / regular table = 310.24 MB
+    * for partitioned & clustered table = 26.84 MB
+* REASON: partition pruning, helps filter the data quickly and efficiently
