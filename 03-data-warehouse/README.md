@@ -71,3 +71,20 @@ WHERE fare_amount = 0;
 ```
 ANSWER:
 * num_trips_fare_zero = 8333
+
+# QUESTION 5: Partitioning And Clustering
+```
+-- new table with partition by date of dropoff and cluster by vendor id
+CREATE OR REPLACE TABLE `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.paritioned_clustered_yellow_taxi_2024` 
+PARTITION BY DATE(tpep_dropoff_datetime) 
+CLUSTER BY VendorID AS 
+SELECT * FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_yellow_taxi_2024`;
+```
+ANSWER:
+* Partition by tpep_dropoff_datetime and Cluster on VendorID
+* REASON:
+    * since the records are timeseries based, a partition on a time unit column which can be partitioned by less than 4000 partitions makes partitioning by tpep_dropoff_datetime (can also choose pickup) as the best option. 
+    * we can choose the granularity of the partition to be date or month or year depending on the data at scale
+    * The vendor ID is the main category across which the data in each partition can be clustered. 
+    * Also, since the sorting order is in the same order of partition by order an overarching categorical column such as Vendor ID is a good starting point to form clusters.
+
