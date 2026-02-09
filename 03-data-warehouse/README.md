@@ -14,3 +14,11 @@ CREATE OR REPLACE TABLE `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_y
 AS
 SELECT * FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.external_yellow_taxi_2024`;
 ```
+# QUESTION 1
+* count of records for the 2024 Yellow Taxi Data
+```
+-- QUESTION 1: count of records for the 2024 Yellow Taxi Data
+SELECT COUNT(*) AS total_records_yellow_2024_janjune 
+FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_yellow_taxi_2024`;
+```
+* ANSWER: 20332093
