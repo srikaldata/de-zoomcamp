@@ -113,10 +113,12 @@ ANSWER:
     * for partitioned & clustered table = 26.84 MB
 * REASON: partition pruning, helps filter the data quickly and efficiently
 
+
 # QUESTION 7: External Table Storage
 * we have uploaded the dataset in reference to GCP storage bucket
 * the external table has been created referring the uri of the GCP storage bucket
 * Thus, the data stored in external table persists in the GCP storage bucket
+
 
 # QUESTION 8: Clustering Best Practices
 * It is best practice in Big Query to always cluster your data:
@@ -127,3 +129,15 @@ ANSWER:
         * If partitions are large number beyond limit of partition table (4000 partitions for GCP)
         * If partitions causes many changes and lots of modifications quite frequently
 
+
+# QUESTION 9: Understanding table Scans
+```
+-- SELECT count(*) query FROM the materialized table you created
+SELECT COUNT(*) FROM `de-zoomcamp-sri-2026.nyctaxiyellow2024janjune.regular_yellow_taxi_2024`;
+``` 
+* ANSWER: 
+    * Estimated bytes processed = 0 B
+    * REASON:
+        * because BigQuery being a warehouse, already has metadata of the number of records in the materialized / regular table.
+        * so no minimal to no processing is needed to display the metadata cached: number of records in the table as the result of this query
+        * thus the estimated bytes processed shows as 0 bytes
