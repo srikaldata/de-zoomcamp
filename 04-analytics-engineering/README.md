@@ -64,3 +64,15 @@ WHERE service_type = 'Green' AND revenue_month = '2019-10-01';
     * 384624 trips
 
 
+# QUESTION 6 - build a staging model for FHV data
+* created ingest_data_fhv.py file to ingest the FHV data
+* created src_fhv.yml for source yml of FHV data
+* created stg_fhv_tripdata.sql for filtering, making changes and connecting the data to the duck db using dbt
+* run dbt run --select stg_fhv_tripdata --target dev
+```
+-- find the number of records 
+SELECT count(*) AS num_records_fhv_2019 
+FROM taxi_rides_ny.dev.fhv_tripdata;
+```
+* ANSWER:
+    * 43244693 records
