@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: staging
+    # database: taxi_rides_ny
+    schema: staging
+    tables:
+      - name: fhv_tripdata
