@@ -52,4 +52,15 @@ LIMIT 5;
     * East Harlem North = 1817302.95
 
 
+# QUESTION 5 - green taxi trip counts (october 2019)
+```
+SELECT 
+    SUM(total_monthly_trips) AS total_october_2019_trips 
+FROM taxi_rides_ny.prod.fct_monthly_zone_revenue 
+WHERE service_type = 'Green' AND revenue_month = '2019-10-01'; 
+-- revenue_month's month and year need not be parsed using functions since it has only 1st day of all months even though it is in DATE format
+```
+* OUTPUT:
+    * 384624 trips
+
 
