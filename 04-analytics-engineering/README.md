@@ -19,9 +19,20 @@ INSTRUCTIONS TO RUN LOCALLY:
     * since dbt run is performed to select only the model without upstream / downstream dependencies
     * also, the existence of a ref pointing to the staging table modelsdoes not automatically force dbt to build the parent models during a run.
 
+
 # QUESTION 2 - dbt tests
 * Your model fct_trips has been running successfully for months. (existing list of accepted_values --> [1, 2, 3, 4, 5])  A new value 6 now appears in the source data.
 * ANSWER:
     * dbt will fail the test, returning a non-zero exit code
     * because the number 6 is not in the accepted values list
+
+
+# QUESTION 3 - counting records in fct_monthly_zone_revenue
+```
+SELECT COUNT(*) AS num_records 
+FROM taxi_rides_ny.prod.fct_monthly_zone_revenue;
+```
+* OUTPUT:
+    * 12184 records
+
 
