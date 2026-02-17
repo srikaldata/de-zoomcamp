@@ -36,3 +36,20 @@ FROM taxi_rides_ny.prod.fct_monthly_zone_revenue;
     * 12184 records
 
 
+# QUESTION 4 - best performing zone for green taxis (2020)
+```
+-- top 5 best performing zones for green taxis in year 2020
+SELECT 
+    pickup_zone, 
+    SUM(revenue_monthly_total_amount) AS total_revenue
+FROM taxi_rides_ny.prod.fct_monthly_zone_revenue 
+WHERE service_type = 'Green' AND YEAR(revenue_month) = 2020 
+GROUP BY pickup_zone 
+ORDER BY total_revenue DESC 
+LIMIT 5;
+```
+* ANSWER:
+    * East Harlem North = 1817302.95
+
+
+
