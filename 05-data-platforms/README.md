@@ -29,3 +29,10 @@
     * `bruin run --var 'taxi_types=["yellow"]'`
     * the `--var` flag is used to override existing values
 
+
+# QUESTION 4 - Running with Dependencies:
+* run ingestion/trips.py asset and plus all downstream assets
+* ANSWER:
+    * `bruin run ingestion/trips.py --downstream`
+    * `--downstream` flag makes sure all the downstream dependencies are run after executing the current asset which is run
+
