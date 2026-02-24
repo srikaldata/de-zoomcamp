@@ -51,3 +51,9 @@
     * `bruin lineage`
     * it shows the entire dependencies as a graph like a DAG
 
+
+# QUESTION 7 - First-Time Run
+* What flag should you use to ensure tables are created from scratch?
+* ANSWER:
+    * --full-refresh
+    * it ensures all objects like tables, if it exists, are dropped and are created from scratch
