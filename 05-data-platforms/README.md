@@ -44,3 +44,10 @@
     * not_null makes sure no null values are present in a column
     * if null values are present in the specified column, the quality check fails and the execution stops
 
+
+# QUESTION 6 - Lineage and Dependencies
+* Visualize the dependency graph between assets
+* ANSWER:
+    * `bruin lineage`
+    * it shows the entire dependencies as a graph like a DAG
+
