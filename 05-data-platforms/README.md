@@ -21,3 +21,11 @@
 * ANSWER: 
     * `time_interval`
     * because it refreshes the records within the time window defined
+
+
+# QUESTION 3 - Pipeline Variables:
+* Running the pipeline to only process yellow taxis
+* ANSWER:
+    * `bruin run --var 'taxi_types=["yellow"]'`
+    * the `--var` flag is used to override existing values
+
