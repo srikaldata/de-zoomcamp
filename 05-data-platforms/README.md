@@ -15,3 +15,9 @@
         * pipeline.yml
         * assets/
 
+
+# QUESTION 2 - Materialization Strategies
+* Which incremental strategy is best for processing a specific interval period by deleting and inserting data for that time period?
+* ANSWER: 
+    * `time_interval`
+    * because it refreshes the records within the time window defined
