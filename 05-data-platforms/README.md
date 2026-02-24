@@ -36,3 +36,11 @@
     * `bruin run ingestion/trips.py --downstream`
     * `--downstream` flag makes sure all the downstream dependencies are run after executing the current asset which is run
 
+
+# QUESTION 5 - Quality Checks:
+* pickup_datetime column in your trips table never has NULL values
+* ANSWER:
+    * `name: not_null`
+    * not_null makes sure no null values are present in a column
+    * if null values are present in the specified column, the quality check fails and the execution stops
+
