@@ -30,3 +30,17 @@ Pipeline taxi_pipeline load step completed in 3.69 seconds
 1 load package(s) were loaded to destination duckdb and into dataset taxi_pipeline_dataset
 The duckdb destination used duckdb:////home/.../06-data-ingestion-dlt/taxi-pipeline/taxi_pipeline.duckdb location to store data
 Load package 1772492992.6037815 is LOADED and contains no failed jobs
+
+### viewing the dlt pipeline stages
+`uv run dlt pipeline taxi_pipeline show`
+
+* checked and confirmed the pipeline stages at localhost:/####
+
+### installing necessary packages for querying
+`uv pip install pandas`
+
+## Querying using marimo
+`uv run marimo edit`
+
+* runs at localhost:/####?access_token=####
+* can query the table from here
