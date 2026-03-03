@@ -115,7 +115,42 @@ OUTPUT:
 | 2009-06-01T11:33:00.000Z | 2009-07-01T00:03:00.000Z |
 
 
-* **ANSWER**:
-    * 2009-06-01 to 2009-07-1 --> 1 June 2009 to 1 July 2009
+* ANSWER:
+    * **2009-06-01 to 2009-07-1 --> 1 June 2009 to 1 July 2009**
+
+
+
+# QUESTION 2 - proportion of trips using credit card
+
+```
+-- checking  the distinct payment types
+SELECT DISTINCT(payment_type) FROM taxi_data.taxi_pipeline_dataset.taxi_trips LIMIT 5;
+```
+
+OUTPUT:
+| payment_type |
+|---|
+| Credit |
+| Cash |
+| No Charge |
+| Dispute |
+| CASH |
+
+```
+-- proportion of trips using credit as the payment type in %
+SELECT 
+    (COUNT(CASE WHEN payment_type = 'Credit' THEN 1 END) * 100.0 / COUNT(*)) AS credit_card_proportion
+FROM taxi_data.taxi_pipeline_dataset.taxi_trips;
+
+```
+
+OUTPUT:
+
+| credit_card_proportion |
+|---|
+| 26.66 |
+
+* ANSWER:
+    * **26.66%** of the trips use credit card as payment type
 
 
