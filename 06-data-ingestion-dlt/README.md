@@ -90,3 +90,32 @@ OUTPUT:
 
 OUTPUT:
 10000
+
+
+# QUESTION 1 - date range in the given dataset
+
+```
+SELECT 
+    MIN(trip_pickup_date_time) AS start_date, 
+    MAX(trip_dropoff_date_time) AS end_date 
+FROM taxi_data.taxi_pipeline_dataset.taxi_trips;
+
+-- or 
+
+SELECT 
+    MIN(DATE(trip_pickup_date_time)) AS start_date, 
+    MAX(DATE(trip_dropoff_date_time)) AS end_date 
+FROM taxi_data.taxi_pipeline_dataset.taxi_trips;
+```
+
+OUTPUT:
+
+| start_date | end_date |
+|---|---|
+| 2009-06-01T11:33:00.000Z | 2009-07-01T00:03:00.000Z |
+
+
+* **ANSWER**:
+    * 2009-06-01 to 2009-07-1 --> 1 June 2009 to 1 July 2009
+
+
