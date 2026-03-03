@@ -154,3 +154,22 @@ OUTPUT:
     * **26.66%** of the trips use credit card as payment type
 
 
+# QUESTION 3 - total tip amount
+
+```
+-- total tip amount
+SELECT 
+    SUM(tip_amt) AS total_tips
+FROM taxi_data.taxi_pipeline_dataset.taxi_trips;
+```
+
+OUTPUT:
+
+| total_tips |
+|---|
+| 6063.410000000009 |
+
+
+
+* ANSWER:
+    * total tip amount = $ 6063.41

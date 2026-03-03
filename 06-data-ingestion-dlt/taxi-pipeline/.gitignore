@@ -100,13 +100,13 @@ profile_default/
 ipython_config.py
 
 # pyenv
-.python-version
+#.python-version
 
 # pipenv
 Pipfile.lock
 
 # UV
-uv.lock
+#uv.lock
 
 # poetry
 poetry.lock
