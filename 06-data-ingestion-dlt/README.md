@@ -19,3 +19,14 @@ Use @dlt rest api as a tutorial.
 ```
 
 * followed up error debugging and other operations with follow-up prompts
+
+### Running the pipeline
+
+`uv run python taxi_pipeline.py`
+
+OUTPUT:
+
+Pipeline taxi_pipeline load step completed in 3.69 seconds
+1 load package(s) were loaded to destination duckdb and into dataset taxi_pipeline_dataset
+The duckdb destination used duckdb:////home/.../06-data-ingestion-dlt/taxi-pipeline/taxi_pipeline.duckdb location to store data
+Load package 1772492992.6037815 is LOADED and contains no failed jobs
