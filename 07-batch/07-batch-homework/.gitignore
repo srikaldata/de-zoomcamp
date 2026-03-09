@@ -16,6 +16,7 @@ __pycache__/
 .venv/
 .env
 .python-version
+data/
 
 # --- OS specific ---
 .DS_Store
