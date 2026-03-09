@@ -1,0 +1,22 @@
+# --- Spark ---
+derby.log
+metastore_db/
+spark-warehouse/
+eventlogs/
+*.stackdump
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.pytest_cache/
+
+# --- Environment & uv ---
+.venv/
+.env
+.python-version
+
+# --- OS specific ---
+.DS_Store
+Thumbs.db
