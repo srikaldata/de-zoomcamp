@@ -50,3 +50,7 @@ spark.sql('\
 
 ANSWER:
 * __90.6 hours__
+
+# QUESTION 5 - spark app ui local server port
+* it runs in the localhost in port 4040 (if no other apps are hosted on that port)
+
