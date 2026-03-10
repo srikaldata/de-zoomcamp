@@ -52,5 +52,23 @@ ANSWER:
 * __90.6 hours__
 
 # QUESTION 5 - spark app ui local server port
-* it runs in the localhost in port 4040 (if no other apps are hosted on that port)
+* it runs in the localhost in port __4040__ (if no other apps are hosted on that port)
 
+
+# QUESTION 6 - least frequent pickup zone
+```
+spark.sql("""
+        SELECT z.Zone, COUNT(*) as trip_count
+        FROM yellow_taxi_trips AS t
+        JOIN zones AS z 
+        ON t.PULocationID = z.LocationID
+        WHERE t.tpep_pickup_datetime >= '2025-11-01 00:00:00' AND t.tpep_pickup_datetime < '2025-12-01 00:00:00'
+        GROUP BY z.Zone
+        ORDER BY trip_count ASC
+        LIMIT 10;
+          """).show()
+```
+ANSWER:
+* Governor's Island...
+* Arden Heights
+* Eltingville/Annad..
