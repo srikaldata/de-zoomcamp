@@ -40,3 +40,22 @@ Trips with distance > 5.0: 8506
 ANSWER:
 * Trips with distance > 5.0: __8506__
 
+
+```
+Q 4 to 6 preparation:
+> docker exec -it workshop-postgres-1 psql -U postgres -d postgres
+
+>> CREATE TABLE q4 (window_start TIMESTAMP(3), PULocationID INT, num_trips BIGINT, PRIMARY KEY (window_start, PULocationID));
+CREATE TABLE q5 (window_start TIMESTAMP(3), PULocationID INT, num_trips BIGINT, PRIMARY KEY (window_start, PULocationID));
+CREATE TABLE q6 (window_start TIMESTAMP(3), total_tip DOUBLE PRECISION, PRIMARY KEY (window_start));
+
+>> \dt
+List of relations
+Schema | Name | Type | Owner 
+--------+------+-------+----------
+public | q4 | table | postgres
+public | q5 | table | postgres
+public | q6 | table | postgres
+(3 rows)
+
+```
