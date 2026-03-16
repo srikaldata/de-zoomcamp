@@ -59,3 +59,32 @@ public | q6 | table | postgres
 (3 rows)
 
 ```
+
+
+# QUESTION 4 - tumbling window pickup location with highest trips
+```
+docker exec -it workshop-jobmanager-1 flink run -py /opt/src/job/q4.py
+
+docker exec -it workshop-postgres-1 psql -U postgres -d postgres -c "SELECT PULocationID, num_trips FROM q4 ORDER BY num_trips DESC LIMIT 3;"
+pulocationid | num_trips 
+--------------+-----------
+74 | 15
+74 | 14
+74 | 14
+(3 rows)
+```
+* pulocationid = __74__ 
+
+
+# QUESTION 5 - session window longest streak
+```
+docker exec -it workshop-jobmanager-1 flink run -py /opt/src/job/q5.py
+
+docker exec -it workshop-postgres-1 psql -U postgres -d postgres -c "SELECT num_trips FROM q5 ORDER BY num_trips DESC LIMIT 1;"
+num_trips 
+-----------
+81
+(1 row)
+```
+ANSWER:
+* __81 trips__
