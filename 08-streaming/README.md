@@ -88,3 +88,31 @@ num_trips
 ```
 ANSWER:
 * __81 trips__
+
+
+# QUESTION 6 - tumbling window largest tip
+```
+docker exec -it workshop-jobmanager-1 flink run -py /opt/src/job/q6.py
+
+docker exec -it workshop-postgres-1 psql -U postgres -d postgres -c "
+SELECT window_start, total_tip 
+FROM q6 
+ORDER BY total_tip DESC 
+LIMIT 10;"
+window_start | total_tip 
+---------------------+--------------------
+2025-10-16 18:00:00 | 510.8599999999999
+2025-10-30 16:00:00 | 494.41
+2025-10-09 18:00:00 | 472.01000000000016
+2025-10-10 17:00:00 | 470.0800000000002
+2025-10-16 17:00:00 | 445.01000000000005
+2025-10-02 17:00:00 | 439.5400000000001
+2025-10-22 18:00:00 | 428.78000000000003
+2025-10-29 17:00:00 | 426.7500000000001
+2025-10-03 18:00:00 | 425.14000000000004
+2025-10-23 17:00:00 | 412.6600000000001
+(10 rows)
+
+```
+ANSWER:
+* __2025-10-16 18:00:00__ with the largest tip of approximately 510.86 dollars
