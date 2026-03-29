@@ -1,0 +1,60 @@
+# --- Google Cloud & Security (CRITICAL) ---
+# Blocks all JSON files to prevent Service Account Key leaks
+*.json
+# If you have a specific config.json that IS safe, negate it like this:
+# !safe_config.json
+
+
+# --- UV (Python Package Manager) ---
+# uv's virtual environments
+.venv/
+# If you use uv to manage Python versions locally
+.python-version
+# NOTE: DO NOT ignore `uv.lock`. Commit it to ensure reproducible builds!
+
+
+# --- Docker ---
+.dockerignore
+# Ignore local database mounts or compose files that contain hardcoded passwords
+docker-compose.override.yml
+# Docker ignore data directories
+.database/
+
+
+# --- Terraform ---
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+.terraformrc
+terraform.rc
+
+
+# --- Python (Streamlit) ---
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+env/
+venv/
+ENV/
+pip-log.txt
+.pytest_cache/
+
+
+# --- dbt ---
+target/
+dbt_packages/
+logs/
+# Hide your local dbt profiles which might contain DB credentials
+profiles.yml
+
+
+# --- Kestra ---
+.kestra/
+bin/
