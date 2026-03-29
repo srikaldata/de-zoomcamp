@@ -1,0 +1,38 @@
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "7.25.0"
+    }
+  }
+}
+
+provider "google" {
+  # Configuration options
+  # UNCOMMENT THE BELOW VARIABLE AFTER UPDATING IN variables.tf IF YOU WANT TO USE A SERVICE ACCOUNT KEY FILE INSTEAD OF APPLICATION DEFAULT CREDENTIALS
+  # credentials = file(var.credentials)
+  project = var.project
+  region  = var.region
+}
+
+resource "google_storage_bucket" "project-bucket" {
+  name          = var.gcs_bucket_name
+  location      = var.location
+  storage_class = var.gcs_storage_class
+  force_destroy = true
+
+  lifecycle_rule {
+    condition {
+      age = 1
+    }
+    action {
+      type = "AbortIncompleteMultipartUpload"
+    }
+  }
+}
+
+
+resource "google_bigquery_dataset" "project_dataset" {
+  dataset_id = var.bq_dataset_name
+  location   = var.location
+}
