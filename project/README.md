@@ -23,6 +23,50 @@ https://open-meteo.com/
 | **Environment** |	**uv**	 | Python package and dependencies management for local development and reproducibility |
 
 ### DATA PIPELINE WORKFLOW
+
+```
+graph LR
+    %% --- Define Nodes & Groups ---
+    subgraph "External Data Source"
+        API["Open-Meteo Weather API"]
+    end
+
+    subgraph "Ingestion & Storage (GCP)"
+        Kestra["Kestra Orchestrator"]
+        GCS["Google Cloud Storage <br/> (Landing Zone / Data Lake)"]
+    end
+
+    subgraph "Data Warehouse (BigQuery)"
+        BQ_Raw[("Raw dataset <br/> partitioned by date, <br/> clustered by city")]
+        dbt["dbt-bigquery <br/> (Transformations)"]
+        BQ_Analytics[("Analytics dataset")]
+    end
+
+    subgraph "Visualization (uv)"
+        Streamlit["Streamlit Dashboard <br/> NY vs SF Weather Intelligence"]
+    end
+
+    %% --- Connect Nodes ---
+    API -.->|"1. Batch Fetch (Python/Kestra)"| Kestra
+    Kestra -.->|"2. Trigger (Batch flow)"| GCS
+    Kestra -->|"3. Partition & Cluster"| BQ_Raw
+    GCS -->|"4. Stage "| dbt
+    dbt -->|"5. Read"| BQ_Raw
+    dbt -->|"6. Transform & Write (Gold)"| BQ_Analytics
+    BQ_Analytics -->|"7. Query (Interactive)"| Streamlit
+
+    %% --- Apply Styles ---
+    classDef plain fill:#fff,stroke:#333,stroke-width:1px;
+    classDef storage fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
+    classDef orchestrator fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
+    classDef vis fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+
+    class API,dbt plain;
+    class GCS,BQ_Raw,BQ_Analytics storage;
+    class Kestra orchestrator;
+    class Streamlit vis;
+```
+
 * **Ingestion (End-to-End Batch Orchestration using Kestra)**
 
     * Managed via Kestra, the pipeline runs a Python-based task that:
