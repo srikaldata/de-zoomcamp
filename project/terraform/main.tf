@@ -36,10 +36,12 @@ resource "google_storage_bucket" "project-bucket" {
 resource "google_bigquery_dataset" "weather_raw_dataset" {
   dataset_id = var.bq_dataset_raw
   location   = var.location
+  delete_contents_on_destroy  = true
 }
 
 # Dataset 2: For dbt Transformations 
 resource "google_bigquery_dataset" "weather_analytics_dataset" {
   dataset_id = var.bq_dataset_analytics
   location   = var.location
+  delete_contents_on_destroy  = true
 }
