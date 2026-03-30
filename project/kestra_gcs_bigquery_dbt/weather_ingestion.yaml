@@ -1,0 +1,79 @@
+id: weather_ingestion
+namespace: dev
+description: Fetches historical weather data for NY and SF
+
+
+tasks:
+  - id: city_loop
+    type: io.kestra.plugin.core.flow.ForEach
+    values: 
+      - { "name": "New York", "lat": 40.71, "lon": -74.00 }
+      - { "name": "San Francisco", "lat": 37.77, "lon": -122.41 }
+    concurrencyLimit: 1 
+    tasks:
+      - id: year_loop
+        type: io.kestra.plugin.core.flow.ForEach
+        values: ["2021","2022","2023","2024","2025"] 
+        concurrencyLimit: 1
+        tasks:
+          - id: extract_weather
+            type: io.kestra.plugin.scripts.python.Script
+            containerImage: ghcr.io/kestra-io/pydata:latest
+            script: |
+              import requests
+              import pandas as pd
+              
+              city_name = "{{ parents[0].taskrun.value | jq('.name') | first }}"
+              lat = "{{ parents[0].taskrun.value | jq('.lat') | first }}"
+              lon = "{{ parents[0].taskrun.value | jq('.lon') | first }}"
+              year = "{{ taskrun.value }}"
+              
+              url = f"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lon}&start_date={year}-01-01&end_date={year}-12-31&daily=temperature_2m_max,temperature_2m_min&timezone=auto"
+              
+              response = requests.get(url).json()
+              df = pd.DataFrame({
+                  "date": response["daily"]["time"],
+                  "temp_max": response["daily"]["temperature_2m_max"],
+                  "temp_min": response["daily"]["temperature_2m_min"],
+                  "city": city_name
+              })
+              
+              df.to_csv("weather_data.csv", index=False)
+            outputFiles:
+              - "weather_data.csv"
+
+          # - id: debug_gcs
+          #   type: io.kestra.plugin.core.debug.Return
+          #   format: "{{ outputs.extract_weather[parents[0].taskrun.value][taskrun.value].outputFiles['weather_data.csv'] }}"
+
+          - id: upload_to_gcs
+            type: io.kestra.plugin.gcp.gcs.Upload
+            from: "{{ outputs.extract_weather[parents[0].taskrun.value][taskrun.value].outputFiles['weather_data.csv'] }}"
+            to: "gs://{{ secret('GCP_BUCKET') }}/raw/{{ (parents[0].taskrun.value | jq('.name') | first | string).replace(' ', '_')}}/{{ taskrun.value }}.csv"
+            serviceAccount: "{{ secret('GCP_CREDS') }}"
+            projectId: "{{ secret('GCP_PROJECT') }}"
+
+
+  - id: load_to_bigquery
+    type: io.kestra.plugin.gcp.bigquery.LoadFromGcs
+    serviceAccount: "{{ secret('GCP_CREDS') }}"
+    projectId: "{{ secret('GCP_PROJECT') }}"
+    destinationTable: "weather_raw.stg_weather"
+    from: 
+      - "gs://{{ secret('GCP_BUCKET') }}/raw/*.csv"
+    format: CSV
+    autodetect: true
+    writeDisposition: WRITE_TRUNCATE
+    timePartitioningField: date
+    timePartitioningType: YEAR
+    clusteringFields: 
+      - "city"
+    csvOptions:
+      fieldDelimiter: ","
+      skipLeadingRows: 1
+
+  - id: trigger_dbt
+    type: io.kestra.plugin.core.flow.Subflow
+    flowId: weather_transformation
+    namespace: dev
+    wait: true
