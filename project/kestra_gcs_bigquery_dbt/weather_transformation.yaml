@@ -1,0 +1,95 @@
+id: weather_transformation
+namespace: dev
+description: Runs dbt transformations on the weather data in BigQuery
+
+tasks:
+  - id: dbt_run
+    type: io.kestra.plugin.dbt.cli.DbtCLI
+    containerImage: ghcr.io/kestra-io/dbt-bigquery:latest
+    env:
+      GCP_PROJECT: "{{ secret('GCP_PROJECT') | trim }}"
+      DBT_PROJECT_DIR: "."
+    inputFiles:
+      macros/generate_schema_name.sql: |
+        {% verbatim %}
+        {% macro generate_schema_name(custom_schema_name, node) -%}
+            {%- if custom_schema_name is none -%}
+                {{ target.schema }}
+            {%- else -%}
+                {{ custom_schema_name | trim }}
+            {%- endif -%}
+        {%- endmacro %}
+        {% endverbatim %}
+        
+      dbt_project.yml: |
+        name: 'weather_project'
+        version: '1.0.0'
+        config-version: 2
+        profile: 'weather_profile'
+        model-paths: ["models"]
+        
+      models/sources.yml: |
+        {% verbatim %}
+        version: 2
+        sources:
+          - name: raw_data
+            database: "{{ env_var('GCP_PROJECT') }}"
+            schema: weather_raw
+            tables:
+              - name: stg_weather
+        {% endverbatim %}
+
+      # The Transformation Model 
+      # the "Gold" table #1 for Streamlit
+      models/weather_metrics.sql: |
+        {% verbatim %}
+        {{ config(materialized='table', schema='weather_analytics') }}
+        SELECT
+            CAST(date AS DATE) as date,
+            city,
+            SAFE_CAST(temp_max AS FLOAT64) as temp_max,
+            SAFE_CAST(temp_min AS FLOAT64) as temp_min,
+            (SAFE_CAST(temp_max AS FLOAT64) + SAFE_CAST(temp_min AS FLOAT64)) / 2 as temp_avg,
+            CASE 
+                WHEN SAFE_CAST(temp_max AS FLOAT64) > 30 THEN 'Hot'
+                WHEN SAFE_CAST(temp_max AS FLOAT64) < 10 THEN 'Cold'
+                ELSE 'Mild'
+            END as weather_category
+        FROM {{ source('raw_data', 'stg_weather') }}
+        {% endverbatim %}
+
+      # The Transformation Model 
+      # the "Gold" table #2 for Streamlit
+      models/weather_summary.sql: |
+        {% verbatim %}
+        {{ config(materialized='table', schema='weather_analytics') }}
+        SELECT 
+            city,
+            EXTRACT(YEAR FROM CAST(date AS DATE)) as weather_year,
+            ROUND(AVG(SAFE_CAST(temp_max AS FLOAT64)), 2) as avg_high,
+            ROUND(AVG(SAFE_CAST(temp_min AS FLOAT64)), 2) as avg_low,
+            COUNT(*) as days_recorded
+        FROM {{ source('raw_data', 'stg_weather') }}
+        GROUP BY 1, 2
+        {% endverbatim %}
+
+      gcp_creds.json: |
+        {{ secret('GCP_CREDS') }}
+
+      # the Profile (Connection details)
+      profiles.yml: |
+        weather_profile:
+          outputs:
+            dev:
+              type: bigquery
+              method: service-account
+              project: "{{ secret('GCP_PROJECT') | trim }}"
+              dataset: weather_analytics
+              threads: 1
+              keyfile: "gcp_creds.json"
+              priority: interactive
+          target: dev
+
+    commands:
+      - dbt deps
+      - dbt build
