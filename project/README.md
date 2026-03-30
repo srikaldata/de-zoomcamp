@@ -24,7 +24,7 @@ https://open-meteo.com/
 
 ### DATA PIPELINE WORKFLOW
 
-```
+```mermaid
 graph LR
     %% --- Define Nodes & Groups ---
     subgraph "External Data Source"
