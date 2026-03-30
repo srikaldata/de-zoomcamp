@@ -106,15 +106,16 @@ graph LR
         * **Categorical Distribution**: Side-by-side  2x Pie Charts showing the proportion of weather types per city.
 
 # IMAGES
-* weather_ingestion and weather_transformation flows:
+* weather_ingestion and weather_transformation flows: <br>
+
 ![weather_ingestion_flow](images/weather_ingestion_flow.png)
 ![weather_transformation_flow](images/weather_transformation_flow.png)
 
-* weather_ingestion and weather_transformation flow execution gantt charts:
+* weather_ingestion and weather_transformation flow execution gantt charts: <br>
 ![weather_ingestion_gantt](images/weather_ingestion_gantt.png)
 ![weather_transformation_gantt](images/weather_transformation_gantt.png)
 
-* streamlit dashboard serving:
+* streamlit dashboard serving: <br>
 ![weather_intelligence_streamlit_dashboard](images/weather_intelligence_streamlit_dashboard.png)
 
 # SETUP FOR REPRODUCING THE OUTPUT:
