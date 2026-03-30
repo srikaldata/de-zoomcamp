@@ -15,6 +15,7 @@ provider "google" {
   region  = var.region
 }
 
+# The Cloud Storage Bucket
 resource "google_storage_bucket" "project-bucket" {
   name          = var.gcs_bucket_name
   location      = var.location
@@ -31,8 +32,14 @@ resource "google_storage_bucket" "project-bucket" {
   }
 }
 
+# Dataset 1: For Raw Ingestion 
+resource "google_bigquery_dataset" "weather_raw_dataset" {
+  dataset_id = var.bq_dataset_raw
+  location   = var.location
+}
 
-resource "google_bigquery_dataset" "project_dataset" {
-  dataset_id = var.bq_dataset_name
+# Dataset 2: For dbt Transformations 
+resource "google_bigquery_dataset" "weather_analytics_dataset" {
+  dataset_id = var.bq_dataset_analytics
   location   = var.location
 }
