@@ -41,6 +41,8 @@ https://open-meteo.com/
     * **Clustering**: 
         * Tables are clustered by city to speed up the NY vs. SF comparison filters. Clustering by City within each year ensures that queries filtering for a specific city remain highly efficient. This is done to make sure the transformations can be quickly done to convert data ready for the analytics dashboard.
 
+
+
 * **Transformations (dbt)**
 
     * Using the dbt-bigquery adapter, the raw data is transformed into **two analytics-ready models**:
@@ -59,6 +61,17 @@ https://open-meteo.com/
 
         * **Categorical Distribution**: Side-by-side  2x Pie Charts showing the proportion of weather types per city.
 
+# IMAGES
+* weather_ingestion and weather_transformation flows:
+![weather_ingestion_flow](images/weather_ingestion_flow.png)
+![weather_transformation_flow](images/weather_transformation_flow.png)
+
+* weather_ingestion and weather_transformation flow execution gantt charts:
+![weather_ingestion_gantt](images/weather_ingestion_gantt.png)
+![weather_transformation_gantt](images/weather_transformation_gantt.png)
+
+* streamlit dashboard serving:
+![weather_intelligence_streamlit_dashboard](images/weather_intelligence_streamlit_dashboard.png)
 
 # SETUP FOR REPRODUCING THE OUTPUT:
 
@@ -132,3 +145,6 @@ project/
 * `localhost:<available port>` will host the streamlit dashboard
 * once you are done, **ctrl+C** to stop hosting the dashboard
 
+
+# SPECIAL NOTE
+* Thanks to all the instructors and datatalks.club
