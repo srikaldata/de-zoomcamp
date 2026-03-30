@@ -5,6 +5,9 @@
 Analyzing long-term climate patterns for major coastal urban centers requires a robust and scalable data architecture. This project focuses on gathering and processing 5 years of daily historical weather data for New York and San Francisco to enable comparative analysis of regional climate trends.
 
 
+#### Data source:
+https://open-meteo.com/
+
 ## google cloud platform
 * use a service account, generate key and use it for terraform
 * or login as follows using the cli and ui in browser:
