@@ -1,34 +1,23 @@
-# Historical Weather Analytics Pipeline for NY and SF
+# Historical Weather Intelligence Data Pipeline and Dashboard for NY and SF (2021-2025)
 
 
-## Problem statement:
-Analyzing long-term climate patterns for major coastal urban centers requires a robust and scalable data architecture. This project focuses on gathering and processing 5 years of daily historical weather data for New York and San Francisco to enable comparative analysis of regional climate trends.
+## PROBLEM STATEMENT
+Analyzing long-term climate patterns for major coastal metropolitan centers, New York and San Francisco ("NY" and "SF"), requires a robust and scalable data pipeline. This project focuses on gathering and processing 5 years of daily historical weather data for New York and San Francisco to enable comparative analysis of weather patterns and climate trends.
 
 
-#### Data source:
+### DATA SOURCE 
 https://open-meteo.com/
 
-#### Tools used:
+
+## TOOLS USED
 | Component | Technology | Role in the Pipeline |
 | :--- | :--- | :--- |
-| **Orchestration** | **Kestra** | Automates the 10-batch ingestion process (2 cities x 5 years) with built-in error handling and retries. |
-| **Data Lake** | **Google Cloud Storage** | Acts as the landing zone for raw JSON and CSV data, ensuring a scalable and durable foundation. |
-| **Data Warehouse** | **BigQuery** | Provides the compute power to handle large-scale historical queries. |
-| **Transformation** | **dbt** | Models and cleans the raw API data into analytics-ready tables directly within the warehouse. |
-| **Visualization** | **Streamlit** | Delivers a final dashboard for side-by-side comparison of weather patterns between New York and San Francisco. |
-
-## google cloud platform
-* use a service account, generate key and use it for terraform
-* or login as follows using the cli and ui in browser:
-`gcloud auth application-default login`
-
-* make sure to logout once completed using the folowign two commands
-`gcloud auth application-default revoke`
-`gcloud auth revoke`
-
-## terraform
-* created main.tf and variables.tf
-* `terraform fmt` to prettify the .tf files
-* `terraform plan` to validate the config
-* `terraform apply` to apply the config in the GCP
-* make sure to run `terraform destroy` upon completion
+| **Orchestration** | **Kestra** | Automates batch processing, storage in data lake, transfer to warehouse, gold standard transformation of datasets  |
+| **Cloud**	| **Google Cloud Services** |	Cloud platform and resource utilization for data lake and data warehouse |
+| **IaC**	| **gcloud CLI / Terraform** |	Provisioning and managing cloud resources |
+| **Batch Processing** | **Kestra python containers** | Fetches batches of data from API for NY and SF 5 years(2021-2025) |
+| **Data Lake** | **Google Cloud Storage** | Acts as the landing zone for raw data --> scalable and durable |
+| **Data Warehouse** | **BigQuery** | Clusters and Partitions the raw data and also perform large-scale historical queries. |
+| **Transformation** | **dbt** | Models, Transforms and Cleans the raw API data into analytics-ready tables directly within the warehouse |
+| **Visualization** | **Streamlit** | Delivers a final dashboard for side-by-side comparison of weather patterns between New York and San Francisco between 2021-2025 |
+| **Environment** |	**uv**	 | Python package and dependencies management for local development and reproducibility |
