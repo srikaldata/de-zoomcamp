@@ -45,7 +45,12 @@ venv/
 ENV/
 pip-log.txt
 .pytest_cache/
+# Streamlit local secrets
+.streamlit/secrets.toml
 
+# Local database files
+*.db
+*.sqlite
 
 # --- dbt ---
 target/
@@ -53,7 +58,10 @@ dbt_packages/
 logs/
 # Hide your local dbt profiles which might contain DB credentials
 profiles.yml
-
+# dbt documentation artifacts
+catalog.json
+manifest.json
+run_results.json
 
 # --- Kestra ---
 .kestra/
