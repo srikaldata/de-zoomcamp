@@ -59,3 +59,32 @@ https://open-meteo.com/
 
         * **Categorical Distribution**: Side-by-side  2x Pie Charts showing the proportion of weather types per city.
 
+
+# SETUP FOR REPRODUCING THE OUTPUT:
+
+## Local environment
+###  Approximate Project Structure
+
+```text
+project/
+├── README.md                 # Project documentation and setup guide
+├── pyproject.toml            # uv configuration and Python dependencies
+├── docker-compose.yml        # Local Kestra and database orchestration
+├── .gitignore                # Security: Blocks secrets and environment files
+│
+├── dashboard/                
+│   └── weather_dash.py       # Streamlit application code
+│
+├── kestra_gcs_bigquery_dbt/  
+│   ├── weather_ingestion.yaml      # Pipeline: Fetch data -> GCS -> BigQuery
+│   └── weather_transformation.yaml # Pipeline: Runs dbt models in BigQuery
+│
+└── terraform/                
+    ├── main.tf               # Infrastructure: GCS Buckets & BigQuery Datasets
+    └── variables.tf          # Configurable GCP variables
+```
+
+* Copy over the files under /project OR Clone the project folder of the repo 
+* create your .env file:
+    `touch .env`
+* Edit .env with your GCP_PROJECT and absolute path to your `google_cloud_platform_service_account_key.json`
