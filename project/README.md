@@ -98,3 +98,13 @@ project/
 * make sure to logout once completed using the folowing two commands
 `gcloud auth application-default revoke`
 `gcloud auth revoke`
+
+## Terraform
+* created main.tf and variables.tf
+* Run the terraform commands from /terraform directory
+* `terraform init` to initialize the necessary resources
+* `terraform fmt` to prettify the .tf files
+* `terraform plan` to validate the config  
+* `terraform apply` to apply the config in the GCP
+* make sure to run `terraform destroy` upon completion. 
+* Execute the terraform commands ONLY inside the /terraform directory
