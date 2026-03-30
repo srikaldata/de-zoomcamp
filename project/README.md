@@ -8,6 +8,15 @@ Analyzing long-term climate patterns for major coastal urban centers requires a 
 #### Data source:
 https://open-meteo.com/
 
+#### Tools used:
+| Component | Technology | Role in the Pipeline |
+| :--- | :--- | :--- |
+| **Orchestration** | **Kestra** | Automates the 10-batch ingestion process (2 cities x 5 years) with built-in error handling and retries. |
+| **Data Lake** | **Google Cloud Storage** | Acts as the landing zone for raw JSON and CSV data, ensuring a scalable and durable foundation. |
+| **Data Warehouse** | **BigQuery** | Provides the compute power to handle large-scale historical queries. |
+| **Transformation** | **dbt** | Models and cleans the raw API data into analytics-ready tables directly within the warehouse. |
+| **Visualization** | **Streamlit** | Delivers a final dashboard for side-by-side comparison of weather patterns between New York and San Francisco. |
+
 ## google cloud platform
 * use a service account, generate key and use it for terraform
 * or login as follows using the cli and ui in browser:
