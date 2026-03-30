@@ -66,3 +66,33 @@ run_results.json
 # --- Kestra ---
 .kestra/
 bin/
+plugins/
+dist/
+storage/
+
+# --- OS Specific ---
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+
+# --- IDEs (VS Code / PyCharm) ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Streamlit Internal ---
+.streamlit/config.toml
+# Note: Keep your .streamlit/secrets.toml ignored (already in your list)
+node_modules/
+
+# --- Data Safety ---
+*.csv
+*.parquet
+*.jsonl
+*.log
+# If you ever use Jupyter Notebooks for testing
+.ipynb_checkpoints/
+
