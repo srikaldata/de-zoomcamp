@@ -108,3 +108,20 @@ project/
 * `terraform apply` to apply the config in the GCP
 * make sure to run `terraform destroy` upon completion. 
 * Execute the terraform commands ONLY inside the /terraform directory
+
+## Docker + Kestra --> (GCS + BigQuery + dbt)
+* If you use Kestra free version: create a .env file with your own **GCP credentials in base64** 
+    * `echo -n "SECRET_###=$(base64 -w 0 ~/###/###/###/google_cloud_platform_service_account_key.json)" >> .env`
+* Run the docker commands from /project 
+* `docker compose up -d` to build the image and get the containers running in detached mode
+* `docker ps` to check if the containers are up and running
+* access the Kestra UI from `localhost:8080` and login using credentials mentioned in docker compose yml file
+* If you use Kestra paid version: set the GCP credentials inside secrets in kestra UI (remove env vars inside ocker compose yml and set it in Kestra UI after running docker compose)
+* Import the flows located in the /kestra folder into your Kestra instance.
+    * `weather_ingestion.yaml` (includes fetching the API, batch processing, upload to google cloud storage, transfer and optimize in BigQuery)
+    * `weather_transformation.yaml` (includes fetching raw table from BigQuery, process and transform using dbt, store analytics ready table in BigQuery )
+* Execute the weather_ingestion flow in Kestra --> it  will auto trigger the weather_transformation flow
+* Check for the changes made from your Google Cloud Service account
+* Upon completion make sure to remove the docker resources 
+    * `docker stop $(docker ps -aq)`
+    * `docker system prune -a --volumes`
