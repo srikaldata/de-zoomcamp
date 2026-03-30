@@ -125,3 +125,10 @@ project/
 * Upon completion make sure to remove the docker resources 
     * `docker stop $(docker ps -aq)`
     * `docker system prune -a --volumes`
+
+## Dashboard (Streamlit)
+* Launch Dashboard from /project 
+    * `uv run --env-file .env streamlit run dashboard/app.py`
+* `localhost:<available port>` will host the streamlit dashboard
+* once you are done, **ctrl+C** to stop hosting the dashboard
+
