@@ -2,7 +2,7 @@
 
 
 ## PROBLEM STATEMENT
-Analyzing long-term climate patterns for major coastal metropolitan centers, New York and San Francisco ("NY" and "SF"), requires a robust and scalable data pipeline. This project focuses on gathering and processing 5 years of daily historical weather data for New York and San Francisco to enable comparative analysis of weather patterns and climate trends.
+Analyzing long-term climate patterns for major coastal metropolitan centers, New York and San Francisco ("NY" and "SF"), requires a robust and scalable data pipeline. This project focuses on gathering and processing 5 years of daily historical weather data in batches for New York and San Francisco to enable comparative analysis of weather patterns and climate trends.
 
 
 ### DATA SOURCE 
@@ -21,3 +21,41 @@ https://open-meteo.com/
 | **Transformation** | **dbt** | Models, Transforms and Cleans the raw API data into analytics-ready tables directly within the warehouse |
 | **Visualization** | **Streamlit** | Delivers a final dashboard for side-by-side comparison of weather patterns between New York and San Francisco between 2021-2025 |
 | **Environment** |	**uv**	 | Python package and dependencies management for local development and reproducibility |
+
+### DATA PIPELINE WORKFLOW
+* **Ingestion (End-to-End Batch Orchestration using Kestra)**
+
+    * Managed via Kestra, the pipeline runs a Python-based task that:
+
+        * Fetches historical data for NY and SF from 2021 to 2025.
+
+        * Stages the raw data in Google Cloud Storage (GCS) as Parquet/CSV.
+
+        * Loads data into BigQuery raw landing tables.
+
+* **Data Warehouse Optimization (BigQuery)**
+
+    * **Partitioning**: 
+        * Data in BigQuery is partitioned by date to optimize query performance and reduce costs for time-series analysis. Yearly Partitioning was done because my dataset is small and grows by year. Using DAY partitioning for only 2 years of data would create too many small files, which can actually degrade performance. 
+
+    * **Clustering**: 
+        * Tables are clustered by city to speed up the NY vs. SF comparison filters. Clustering by City within each year ensures that queries filtering for a specific city remain highly efficient. This is done to make sure the transformations can be quickly done to convert data ready for the analytics dashboard.
+
+* **Transformations (dbt)**
+
+    * Using the dbt-bigquery adapter, the raw data is transformed into **two analytics-ready models**:
+
+        * **weather_metrics**: Daily grain data with calculated temperature averages and weather categories (Hot/Mild/Cold).
+
+        * **weather_summary**: Yearly aggregates for high-level trends.
+
+* **Dashboard (Streamlit)**
+
+    * An interactive dashboard displaying **3 different tile groups**:
+
+        * **Top Level Metrics**: Extremes (Max/Min) for both cities across the 5-year window.
+
+        * **Temporal Line Graph**: Overlaid monthly average temperatures to visualize seasonal variance.
+
+        * **Categorical Distribution**: Side-by-side  2x Pie Charts showing the proportion of weather types per city.
+
