@@ -88,3 +88,13 @@ project/
 * create your .env file:
     `touch .env`
 * Edit .env with your GCP_PROJECT and absolute path to your `google_cloud_platform_service_account_key.json`
+
+## Google cloud platform in local
+* use a service account, generate key and use it for terraform
+* or login as follows using the cli and ui in browser:
+`gcloud auth login`
+`gcloud auth application-default login`
+
+* make sure to logout once completed using the folowing two commands
+`gcloud auth application-default revoke`
+`gcloud auth revoke`
